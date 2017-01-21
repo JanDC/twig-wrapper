@@ -2,9 +2,8 @@
 
 namespace TwigWrapper;
 
-use Silex\Application;
+
 use Twig_Environment;
-use TwigWrapper\PostProcessorInterface;
 
 class TwigWrapper
 {
@@ -17,13 +16,12 @@ class TwigWrapper
     /**
      * TwigWrapper constructor.
      *
-     * @param Application $app
-     * @param string $twigIdentifier
+     * @param Twig_Environment $twig
      * @param PostProcessorInterface[] $postProcessors
      */
-    public function __construct(Application $app, $twigIdentifier = 'twig', array $postProcessors = [])
+    public function __construct(Twig_Environment $twig, array $postProcessors = [])
     {
-        $this->twig = $app[$twigIdentifier];
+        $this->twig = $twig;
         $this->postProcessors = $postProcessors;
     }
 
