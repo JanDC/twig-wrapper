@@ -5,7 +5,7 @@ namespace TwigWrapper;
 
 use Twig_Environment;
 
-class TwigWrapper
+class TwigWrapper extends Twig_Environment
 {
 
     /**
@@ -21,6 +21,7 @@ class TwigWrapper
      */
     public function __construct(Twig_Environment $twig, array $postProcessors = [])
     {
+        parent::__construct($twig->getLoader());
         $this->twig = $twig;
         $this->postProcessors = $postProcessors;
     }
@@ -30,6 +31,9 @@ class TwigWrapper
      * @param array $context
      *
      * @return string
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function render($name, array $context = [])
     {
