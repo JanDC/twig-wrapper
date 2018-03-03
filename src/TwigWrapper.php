@@ -13,6 +13,9 @@ class TwigWrapper extends Twig_Environment
      */
     private $twig;
 
+    /** @var PostProcessorInterface[] */
+    private $postProcessors = [];
+
     /**
      * TwigWrapper constructor.
      *
@@ -45,5 +48,19 @@ class TwigWrapper extends Twig_Environment
         }
 
         return $renderedHtml;
+    }
+
+    /**
+     * Any unhandled twig environment methods will be passed to the wrapper twig environment
+     *
+     *
+     * @param string $methodName
+     * @param array $arguments
+     *
+     * @return mixed
+     */
+    public function __call($methodName, $arguments)
+    {
+        return call_user_func_array([$this->twig, $methodName], $arguments);
     }
 }
