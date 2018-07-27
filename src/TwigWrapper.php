@@ -2,10 +2,9 @@
 
 namespace TwigWrapper;
 
-
 use Twig_Environment;
 
-class TwigWrapper extends Twig_Environment
+class TwigWrapper
 {
 
     /**
@@ -14,24 +13,23 @@ class TwigWrapper extends Twig_Environment
     private $twig;
 
     /** @var PostProcessorInterface[] */
-    private $postProcessors = [];
+    private $postProcessors;
 
     /**
      * TwigWrapper constructor.
      *
-     * @param Twig_Environment $twig
+     * @param Twig_Environment         $twig
      * @param PostProcessorInterface[] $postProcessors
      */
     public function __construct(Twig_Environment $twig, array $postProcessors = [])
     {
-        parent::__construct($twig->getLoader());
         $this->twig = $twig;
         $this->postProcessors = $postProcessors;
     }
 
     /**
      * @param string $name
-     * @param array $context
+     * @param array  $context
      *
      * @return string
      * @throws \Twig_Error_Loader
@@ -43,8 +41,9 @@ class TwigWrapper extends Twig_Environment
         $renderedHtml = $this->twig->render($name, $context);
 
         foreach ($this->postProcessors as $postProcessor) {
-            if ($postProcessor instanceof PostProcessorInterface)
+            if ($postProcessor instanceof PostProcessorInterface) {
                 $renderedHtml = $postProcessor->process($renderedHtml, $name, $context, $this->twig);
+            }
         }
 
         return $renderedHtml;
@@ -55,12 +54,12 @@ class TwigWrapper extends Twig_Environment
      *
      *
      * @param string $methodName
-     * @param array $arguments
+     * @param array  $arguments
      *
      * @return mixed
      */
     public function __call($methodName, $arguments)
     {
-        return call_user_func_array([$this->twig, $methodName], $arguments);
+        return \call_user_func_array([$this->twig, $methodName], $arguments);
     }
 }
