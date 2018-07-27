@@ -1,2 +1,2 @@
 # twig-wrapper-provider
-Silex provider which wraps twig rendering and allows for post processing
+Service which wraps twig rendering and allows for post processing
